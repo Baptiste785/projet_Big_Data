@@ -63,8 +63,11 @@ for (i in 1:73643){
   if(data$descr_lum[i]=="Nuit avec Ã©clairage public allumÃ©"){
     data$descr_lum[i] <- 1;
   }
-  if(data$descr_lum[i]=="Plein jour"){
+  if(data$descr_lum[i]=="Nuit sans Ã©clairage public"){
     data$descr_lum[i] <- 2;
+  }
+  if(data$descr_lum[i]=="Plein jour"){
+    data$descr_lum[i] <- 3;
   }
 }
 
