@@ -121,7 +121,7 @@ for (i in 1:73643){
   if(data$description_intersection[i]=="Hors intersection"){
     data$description_intersection[i] <- 2;
   }
-  if(data$description_intersection[i]=="Intersection Ã  plus de 4 branches"){
+  if(data$description_intersection[i]=="Intersection à plus de 4 branches"){
     data$description_intersection[i] <- 3;
   }
   if(data$description_intersection[i]=="Intersection en T"){
@@ -133,7 +133,7 @@ for (i in 1:73643){
   if(data$description_intersection[i]=="Intersection en Y"){
     data$description_intersection[i] <- 6;
   }
-  if(data$description_intersection[i]=="Passage Ã  niveau"){
+  if(data$description_intersection[i]=="Passage à  niveau"){
     data$description_intersection[i] <- 7;
   }
   if(data$description_intersection[i]=="Place"){
@@ -180,7 +180,7 @@ for (i in 1:73643){
     data$descr_dispo_secu[i] <- 11;
   }
   if(data$descr_dispo_secu[i]==" PrÃ©sence d'un Ã©quipement rÃ©flÃ©chissant non utilisÃ©"){
-    data$descr_dispo_secu[i] <- 11;
+    data$descr_dispo_secu[i] <- 12;
   }
  
 }
@@ -228,3 +228,15 @@ for (i in 1:73643){
     data$descr_type_col[i] <- 5;
   }
 }
+
+# Supprimer les lignes contenant des valeurs manquantes
+data_sans_nan <- na.omit(data)
+
+# Supprimer les lignes contenant des valeurs NULL
+data_sans_nan_et_null <- data_sans_nan[complete.cases(data_sans_nan), ]
+
+# Afficher le nouveau tableau sans les valeurs manquantes et les valeurs NULL
+print(data_sans_nan_et_null)
+
+
+
