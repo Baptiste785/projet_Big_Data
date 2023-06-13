@@ -244,11 +244,47 @@ for (i in 1:73643){
 # Supprimer les lignes contenant des valeurs manquantes
 data_sans_nan <- na.omit(data)
 
-
 # Supprimer les lignes contenant des valeurs NULL
 data_sans_nan_et_null <- data_sans_nan[complete.cases(data_sans_nan), ]
 
+# Mise au format numérique des codes INSEE
+data$id_code_insee<-as.numeric(data$id_code_insee)
+
+# Mise au format numérique des latitudes
+data$latitude<-as.numeric(data$latitude)
+
+#Correction du format de la date
+for (i in 1:73643){
+  var=data$date[i]
+  data$date[i] <- as.Date(var);
+}
+
+# mise au format numérique des longitudes
+data$longitude<-as.numeric(data$longitude)
+
+# mise au format numérique des id_usa
+data$id_usa[i]<-as.numeric(data$id_usa[i])
+
+# mise au format numérique des ages
+data$age<-as.numeric(data$age)
+
+# mise au format numérique des places
+data$place<-as.numeric(data$place)
+
+#Construire des séries chronologiques
+
+
+# Agréger les données par mois
+accidents_par_jour <- aggregate(id_usa ~ data$date, data, FUN = length)
+
+accidents_par_mois <- aggregate(id_usa ~ data$date("%m"), data, FUN = length)
+
+
+
+
+
+
+
 #ici je viens mettre cette ligne pour permettre la modification du tableau dans rstudio 
 stat_acc_V3=data 
-
 
