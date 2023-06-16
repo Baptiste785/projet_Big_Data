@@ -109,7 +109,7 @@ data$place<-as.numeric(data$place)
 #Permet de créer une nouvelle colonne pour regrouper les départements
 
 data$num_depart[1]=0
-for(i in 1:length(data)){
+for(i in 1:length(data$id_usa)){
   code_insee<- substr(data$id_code_insee[i], start = 1, stop = 2)
   data$num_depart[i]<-code_insee
 }
@@ -117,7 +117,7 @@ for(i in 1:length(data)){
 #Permet de regrouper les départements par région dans une nouvelle colonne
 
 data$région[1]=0
-for (i in 1:length(data)){
+for (i in 1:length(data$id_usa)){
   var=data$num_depart[i]
   
   if (var==50 || var==14 || var==61 || var==76 || var==27 ){
@@ -155,7 +155,7 @@ for (i in 1:length(data)){
 #B
 #Changement de latitude et longitude pour les arrondissement de Marseille/Paris/Lyon car il y a des incohérences
 
-for (i in 1:length(data)){
+for (i in 1:length(data$id_usa)){
   # Lyon
   if (data$ville[i] %in% c("LYON 01", "LYON 02", "LYON 03", "LYON 04", "LYON 05", "LYON 06", "LYON 07", "LYON 08", "LYON 09")) {
     data$latitude[i] <- 45.75
@@ -266,7 +266,9 @@ b = data$ville
 barplot(table(b), xlab= " ville", ylab="Nombre d'accident", main = "Nombre d’accidents par ville" )
 
 
-
+#Nombre d’accidents par ville avec les 15 premières villes
+b = data$ville
+barplot(sort(table(b)[table(b) > 600]), xlab= " ville", ylab="Nombre d'accident", main = "Nombre d’accidents par ville", las = 2, cex.names = 0.6 )
 
 
 ##                   Histogramme               ##
@@ -522,7 +524,7 @@ for (i in 1:70052) {
       longitude88 = stat_acc_V3$longitude[i]
     }
   }
-    
+  
   if (stat_acc_V3$num_depart[i] == 11 && !missing_values[i]) {
     compteur1 = compteur1 +1
     if(compteur1 == 1){
@@ -1108,7 +1110,7 @@ for (i in 1:70052) {
       longitude85 = stat_acc_V3$longitude[i]
     }
   }
-
+  
   if (stat_acc_V3$num_depart[i] == 97 && !missing_values[i]) {
     compteur87 = compteur87 +1
     if(compteur87 == 1){
@@ -1129,19 +1131,19 @@ m2 <- leaflet() %>%
   
   addCircleMarkers(lng = longitude1, lat = latitude1 ,
                    radius = compteur1/1000, popup = "11")%>%
-
+  
   addCircleMarkers(lng = longitude2, lat = latitude2 ,
-                    radius = compteur2/1000, popup = "12")%>%
-
-addCircleMarkers(lng = longitude3, lat = latitude3 ,
-                 radius = compteur3/1000, popup = "13")%>%
-
-addCircleMarkers(lng = longitude4, lat = latitude4 ,
-                 radius = compteur4/1000, popup = "14")%>%
-
-addCircleMarkers(lng = longitude5, lat = latitude5 ,
-                 radius = compteur5/1000, popup = "15")%>%
-
+                   radius = compteur2/1000, popup = "12")%>%
+  
+  addCircleMarkers(lng = longitude3, lat = latitude3 ,
+                   radius = compteur3/1000, popup = "13")%>%
+  
+  addCircleMarkers(lng = longitude4, lat = latitude4 ,
+                   radius = compteur4/1000, popup = "14")%>%
+  
+  addCircleMarkers(lng = longitude5, lat = latitude5 ,
+                   radius = compteur5/1000, popup = "15")%>%
+  
   addCircleMarkers(lng = longitude6, lat = latitude6 ,
                    radius = compteur6/1000, popup = "16")%>%
   
@@ -2508,6 +2510,7 @@ reg_semaine=lm(as.numeric(unlist(accidents_par_semaine[2]))~as.numeric(unlist(ac
 plot(as.numeric(unlist(accidents_par_semaine[1])), as.numeric(unlist(accidents_par_semaine[2])))
 abline(reg_semaine)
 print(reg_semaine)
+
 
 reg_mois=lm(as.numeric(unlist(accidents_par_mois[2]))~as.numeric(unlist(accidents_par_mois[1])))
 plot(as.numeric(unlist(accidents_par_mois[1])), as.numeric(unlist(accidents_par_mois[2])))
